@@ -49,6 +49,12 @@ app.post('/login-data', (req, res) => {
     console.log(email, password);
     res.json({message: "login data sended......."})
     })
+
+
+// forgot password page render
+app.get('/forgot', (req, res) => {
+    res.render('forgot')
+    })
     
 
 app.get('/login', verifyToken, (req, res) => {

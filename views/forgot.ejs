@@ -1,42 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" x-data="otpHandler()">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forgot Password</title>
+    <title>Send OTP</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+      .transition-width {
+        transition: width 0.3s ease, max-width 0.3s ease;
+      }
+    </style>
   </head>
   <body class="bg-primary flex items-center justify-center min-h-screen text-gray-900 px-4">
-    <div class="card w-full max-w-lg shadow-2xl bg-white p-10">
-      <form class="card-body text-xl space-y-5">
-        <h2 class="text-center text-4xl font-bold mb-4">Forgot Password</h2>
+    <div
+      class="card w-full transition-width shadow-2xl bg-white p-10"
+      :class="showOtp ? 'max-w-xl' : 'max-w-lg'"
+    >
+      <div class="card-body text-xl space-y-5">
+        <h2 class="text-center text-4xl font-bold mb-4">Send OTP</h2>
 
         <p class="text-center text-gray-700 text-lg">
-          Enter your email and we’ll send you a reset link.
+          Enter your registered Gmail address to receive a one-time password (OTP).
         </p>
 
+        <!-- Email input -->
         <div class="form-control">
           <label class="label">
             <span class="label-text text-xl text-gray-800">Email</span>
           </label>
           <input
+            x-model="email"
             type="email"
-            placeholder="email@example.com"
+            placeholder="yourname@gmail.com"
             class="input input-bordered text-lg"
             required
           />
+          <!-- Error Message -->
+          <p x-show="showError" x-transition class="text-red-600 text-sm mt-2">
+            Please enter a valid Gmail address (must end with @gmail.com).
+          </p>
         </div>
 
+        <!-- Send OTP Button -->
         <div class="form-control mt-6">
-          <button class="btn btn-primary text-xl py-3">Send OTP</button>
+          <button
+            type="button"
+            class="btn btn-primary text-xl py-3"
+            @click="validateEmail()"
+          >
+            Send OTP
+          </button>
         </div>
 
+        <!-- OTP Section -->
+        <div x-show="showOtp" x-transition class="mt-6 space-y-4">
+          <h3 class="text-2xl font-semibold text-center">Verify OTP</h3>
+          <p class="text-center text-gray-600 text-base">
+            We've sent a 6-digit OTP to your email. Enter it below to continue.
+          </p>
+
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text text-lg text-gray-800">Enter OTP</span>
+            </label>
+            <input
+              type="text"
+              placeholder="123456"
+              maxlength="6"
+              class="input input-bordered text-lg tracking-widest text-center"
+              required
+            />
+          </div>
+
+          <!-- Countdown / Resend -->
+          <div class="text-center text-base text-gray-600">
+            <template x-if="timer > 0">
+              <p>Resend available in <span x-text="timer"></span> seconds</p>
+            </template>
+            <template x-if="timer === 0">
+              <button class="btn btn-outline btn-sm mt-2" @click="startTimer()">Resend OTP</button>
+            </template>
+          </div>
+
+          <div class="form-control">
+            <button class="btn btn-success text-lg">Verify OTP</button>
+          </div>
+        </div>
+
+        <!-- Back link -->
         <p class="text-lg text-center mt-6 text-gray-700">
-          Remember your password?
-          <a href="login" class="text-primary link link-hover font-medium">Back to Sign In</a>
+          Back to
+          <a href="signup" class="text-primary link link-hover font-medium">Sign In</a>
         </p>
-      </form>
+      </div>
     </div>
+
+    <!-- Alpine.js logic -->
+    <script>
+      function otpHandler() {
+        return {
+          email: '',
+          showOtp: false,
+          showError: false,
+          timer: 0,
+          interval: null,
+          validateEmail() {
+            if (this.email.trim().endsWith('@gmail.com')) {
+              this.showError = false;
+              this.showOtp = true;
+              this.startTimer();
+            } else {
+              this.showError = true;
+              this.showOtp = false;
+            }
+          },
+          startTimer() {
+            this.timer = 60;
+            if (this.interval) clearInterval(this.interval);
+            this.interval = setInterval(() => {
+              if (this.timer > 0) {
+                this.timer--;
+              } else {
+                clearInterval(this.interval);
+              }
+            }, 1000);
+          },
+        };
+      }
+    </script>
   </body>
 </html>
