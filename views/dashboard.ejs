@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coll-AB</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.0/dist/full.css" rel="stylesheet" />
+  <title>COLL-AB</title>
 </head>
 <body class="transition-all duration-300 bg-gray-200">
 
   <!-- Navbar -->
   <div class="navbar bg-white shadow-md px-6 py-2 flex justify-between items-center">
-    <div class="text-xl font-bold text-gray-800">COLL-<span class="text-black">AB</span></div>
+    <div class="text-xl font-bold">
+      <span style="color: #35caca;">COLL</span>-<span class="text-black">AB</span>
+    </div>  
     <div class="flex gap-8 items-center text-sm text-gray-600">
       <div class="flex flex-col items-center cursor-pointer hover:text-black">
         <span class="text-lg font-bold">Home</span>
@@ -32,7 +34,9 @@
       </div>
     </div>
     <div class="flex items-center gap-3">
-      <div class="btn btn-circle bg-gray-200 text-sm font-semibold">Pto</div>
+      <a href="#">
+        <button class="btn btn-outline btn-sm">Sign/Register</button>
+      </a>
     </div>
   </div>
 
@@ -41,25 +45,16 @@
 
     <!-- Sidebar -->
     <div class="col-span-1 hidden md:flex flex-col gap-4 bg-white p-4 rounded-xl shadow h-fit relative overflow-visible">
-
-      <!-- Banner Box -->
       <div class="bg-black text-white text-center font-semibold py-6 rounded-xl relative">
         BANNER
-        <!-- Overlapping Photo -->
         <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-20 h-20 bg-blue-200 rounded-full border-4 border-white flex items-center justify-center text-white text-sm font-medium shadow">
           Photo
         </div>
       </div>
-
-      <!-- Spacer below the photo -->
       <div class="h-10"></div>
-
-      <!-- Description -->
       <div class="bg-blue-100 rounded-xl p-4 text-center h-32 flex items-center justify-center text-gray-700 shadow">
         Description
       </div>
-
-      <!-- Collaborated Projects as Button -->
       <button class="btn w-full bg-white text-gray-800 border border-gray-300 hover:bg-gray-100 shadow">
         COLLABORATED PROJECTS
       </button>
@@ -68,11 +63,11 @@
     <!-- Project Feed -->
     <div class="col-span-1 md:col-span-3 flex flex-col gap-4">
       <!-- Add Project Button -->
-      <button class="btn bg-white text-gray-800 border border-gray-300 w-full font-semibold rounded-xl shadow hover:bg-gray-100">
+      <button id="openModalBtn" class="btn bg-white text-gray-800 border border-gray-300 w-full font-semibold rounded-xl shadow hover:bg-gray-100">
         ADD PROJECT +
       </button>
 
-      <!-- Posts -->
+      <!-- Sample Static Posts (Optional to remove) -->
       <div class="card bg-white shadow-md rounded-xl h-[60vh]">
         <div class="card-body">
           <h2 class="card-title text-lg text-gray-800">Posted Project 01</h2>
@@ -80,31 +75,98 @@
         </div>
       </div>
 
-      <div class="card bg-white shadow-md rounded-xl h-[60vh]">
-        <div class="card-body">
-          <h2 class="card-title text-lg text-gray-800">Posted Project 02</h2>
-          <p>This is a detailed project post that takes more space to simulate a real post UI.</p>
-        </div>
-      </div>
+      <!-- New posts will be added here -->
+    </div>
+  </div>
 
-      <div class="card bg-white shadow-md rounded-xl h-[60vh]">
-        <div class="card-body">
-          <h2 class="card-title text-lg text-gray-800">Posted Project 03</h2>
-          <p>This is a detailed project post that takes more space to simulate a real post UI.</p>
-        </div>
+  <!-- Modal -->
+  <div id="projectModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white w-full max-w-lg p-6 rounded-xl shadow-lg relative">
+      <h2 class="text-xl font-bold mb-4 text-gray-800">Create a Project Post</h2>
+      <input id="projectTitle" type="text" placeholder="Project Title" class="input input-bordered w-full mb-3" />
+      <textarea id="projectDesc" placeholder="Project Description" class="textarea textarea-bordered w-full mb-3"></textarea>
+      <input id="projectImage" type="file" accept="image/*" class="file-input file-input-bordered w-full mb-4" />
+      <div class="flex justify-end gap-3">
+        <button id="closeModalBtn" class="btn btn-outline">Cancel</button>
+        <button id="postProjectBtn" class="btn btn-primary bg-[#35caca] border-none text-white">Post</button>
       </div>
     </div>
   </div>
 
-  <!-- Theme Toggle Script -->
+  <!-- JavaScript -->
   <script>
-    const themeToggle = document.getElementById("themeToggle");
-    themeToggle.addEventListener("click", () => {
-      const htmlEl = document.documentElement;
-      const currentTheme = htmlEl.getAttribute("data-theme");
-      htmlEl.setAttribute("data-theme", currentTheme === "dark" ? "light" : "dark");
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const projectModal = document.getElementById('projectModal');
+    const postProjectBtn = document.getElementById('postProjectBtn');
+  
+    const projectTitle = document.getElementById('projectTitle');
+    const projectDesc = document.getElementById('projectDesc');
+    const projectImage = document.getElementById('projectImage');
+  
+    const projectFeed = document.querySelector('.md\\:col-span-3.flex.flex-col');
+  
+    openModalBtn.addEventListener('click', () => {
+      projectModal.classList.remove('hidden');
+    });
+  
+    closeModalBtn.addEventListener('click', () => {
+      projectModal.classList.add('hidden');
+    });
+  
+    function formatDate(date) {
+      const options = {
+        year: 'numeric', month: 'long', day: 'numeric',
+        hour: 'numeric', minute: '2-digit', hour12: true
+      };
+      return new Intl.DateTimeFormat('en-US', options).format(date);
+    }
+  
+    postProjectBtn.addEventListener('click', () => {
+      const title = projectTitle.value.trim();
+      const desc = projectDesc.value.trim();
+      const imageFile = projectImage.files[0];
+  
+      if (!title || !desc) {
+        alert("Please enter both title and description.");
+        return;
+      }
+  
+      const post = document.createElement('div');
+      post.className = "card bg-white shadow-md rounded-xl mt-4";
+  
+      const postedTime = formatDate(new Date());
+  
+      let postHTML = `
+        <div class="card-body">
+          <h2 class="card-title text-lg text-gray-800">${title}</h2>
+          <p class="text-gray-600">${desc}</p>
+          <p class="text-sm text-gray-500 mt-2 italic">Posted on ${postedTime}</p>
+      `;
+  
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          postHTML += <img src="${e.target.result}" alt="Project Image" class="mt-4 rounded-lg max-h-60 object-cover w-full"/>;
+          postHTML += '</div>';
+          post.innerHTML = postHTML;
+          projectFeed.appendChild(post);
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        postHTML += '</div>';
+        post.innerHTML = postHTML;
+        projectFeed.appendChild(post);
+      }
+  
+      // Reset form and close modal
+      projectTitle.value = '';
+      projectDesc.value = '';
+      projectImage.value = '';
+      projectModal.classList.add('hidden');
     });
   </script>
+  
 
 </body>
 </html>
