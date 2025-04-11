@@ -6,7 +6,7 @@ const verifyToken = async (req, res, next) => {
     try {
         const token = req.cookies.token;
         if (!token) {
-            return res.status(401).json({ message: 'Access denied. No token provided.' });
+            return res.render('landing')
         }
 
         const decoded = jwt.verify(token, "chrono"); // Secret key

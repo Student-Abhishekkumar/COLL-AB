@@ -86,7 +86,7 @@ app.get('/login', (req, res) => {
 
 // Login handler
 app.post(
-  '/login-data',
+  '/dashboard',
   [
     body('email').trim().isEmail().isLength({ min: 10 }),
     body('password').trim().isLength({ min: 5 }),
@@ -132,8 +132,8 @@ app.get('/verify-otp', (req, res) => {
 });
 
 // Protected Home route
-app.get('/home', verifyToken, (req, res) => {
-  res.render('home', { user: req.user });
+app.get('/landing', verifyToken, (req, res) => {
+  res.render('landing', { user: req.user });
 });
 
 // JWT Cookie Setter
