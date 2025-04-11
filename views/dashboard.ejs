@@ -15,10 +15,10 @@
       <span style="color: #35caca;">COLL</span>-<span class="text-black">AB</span>
     </div>  
     <div class="flex gap-8 items-center text-sm text-gray-600">
-      <div class="flex flex-col items-center cursor-pointer hover:text-black">
+      <a href="/dashboard" class="flex flex-col items-center cursor-pointer hover:text-black">
         <span class="text-lg font-bold">Home</span>
         <div class="w-full border-b-2 border-black mt-1"></div>
-      </div>
+      </a>
       <div class="flex flex-col items-center cursor-pointer hover:text-black">
         <span>Project Board</span>
       </div>
@@ -26,7 +26,7 @@
         <span>Mentor</span>
       </div>
       <div class="flex flex-col items-center cursor-pointer hover:text-black">
-        <span>collaborated projects</span>
+        <span>Collaborated Projects</span>
       </div>
       <div class="flex flex-col items-center cursor-pointer hover:text-black relative">
         <span>Notifications</span>
@@ -34,8 +34,12 @@
       </div>
     </div>
     <div class="flex items-center gap-3">
-      <a href="signup">
-        <button class="btn btn-outline btn-sm">Sign/Register</button>
+      <a href="/logout">
+        <div class="avatar">
+          <div class="w-12 rounded-full">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnFRPx77U9mERU_T1zyHcz9BOxbDQrL4Dvtg&s" />
+          </div>
+        </div>
       </a>
     </div>
   </div>
@@ -60,113 +64,54 @@
       </button>
     </div>
 
-    <!-- Project Feed -->
-    <div class="col-span-1 md:col-span-3 flex flex-col gap-4">
-      <!-- Add Project Button -->
+ z
       <button id="openModalBtn" class="btn bg-white text-gray-800 border border-gray-300 w-full font-semibold rounded-xl shadow hover:bg-gray-100">
         ADD PROJECT +
       </button>
 
-      <!-- Sample Static Posts (Optional to remove) -->
-      <div class="card bg-white shadow-md rounded-xl h-[60vh]">
+      <!-- Dynamic Posts -->
+      <% projects.forEach(project => { %>
+      <div class="card bg-white shadow-md rounded-xl">
         <div class="card-body">
-          <h2 class="card-title text-lg text-gray-800">Posted Project 01</h2>
-          <p>This is a detailed project post that takes more space to simulate a real post UI.</p>
+          <h2 class="card-title text-lg text-gray-800"><%= project.title %></h2>
+          <p class="text-gray-600"><%= project.description %></p>
+          <img src="<%= project.imageUrl %>" alt="Project Image" class="mt-4 rounded-lg max-h-60 object-cover w-full" />
         </div>
       </div>
-
-      <!-- New posts will be added here -->
+      <% }); %>
     </div>
   </div>
 
   <!-- Modal -->
-  <div id="projectModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-    <div class="bg-white w-full max-w-lg p-6 rounded-xl shadow-lg relative">
-      <h2 class="text-xl font-bold mb-4 text-gray-800">Create a Project Post</h2>
-      <input id="projectTitle" type="text" placeholder="Project Title" class="input input-bordered w-full mb-3" />
-      <textarea id="projectDesc" placeholder="Project Description" class="textarea textarea-bordered w-full mb-3"></textarea>
-      <input id="projectImage" type="file" accept="image/*" class="file-input file-input-bordered w-full mb-4" />
-      <div class="flex justify-end gap-3">
-        <button id="closeModalBtn" class="btn btn-outline">Cancel</button>
-        <button id="postProjectBtn" class="btn btn-primary bg-[#35caca] border-none text-white">Post</button>
+  <form action="/upload-project" enctype="multipart/form-data" method="POST">
+    <div id="projectModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+      <div class="bg-white w-full max-w-lg p-6 rounded-xl shadow-lg relative">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Create a Project Post</h2>
+        <input name="title" type="text" placeholder="Project Title" class="input input-bordered w-full mb-3" required />
+        <textarea name="description" placeholder="Project Description" class="textarea textarea-bordered w-full mb-3" required></textarea>
+        <input name="image" type="file" accept="image/*" class="file-input file-input-bordered w-full mb-4" required />
+        <div class="flex justify-end gap-3">
+          <button type="button" id="closeModalBtn" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary bg-[#35caca] border-none text-white">Post</button>
+        </div>
       </div>
     </div>
-  </div>
+  </form>
 
   <!-- JavaScript -->
   <script>
     const openModalBtn = document.getElementById('openModalBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const projectModal = document.getElementById('projectModal');
-    const postProjectBtn = document.getElementById('postProjectBtn');
-  
-    const projectTitle = document.getElementById('projectTitle');
-    const projectDesc = document.getElementById('projectDesc');
-    const projectImage = document.getElementById('projectImage');
-  
-    const projectFeed = document.querySelector('.md\\:col-span-3.flex.flex-col');
-  
+
     openModalBtn.addEventListener('click', () => {
       projectModal.classList.remove('hidden');
     });
-  
+
     closeModalBtn.addEventListener('click', () => {
       projectModal.classList.add('hidden');
     });
-  
-    function formatDate(date) {
-      const options = {
-        year: 'numeric', month: 'long', day: 'numeric',
-        hour: 'numeric', minute: '2-digit', hour12: true
-      };
-      return new Intl.DateTimeFormat('en-US', options).format(date);
-    }
-  
-    postProjectBtn.addEventListener('click', () => {
-      const title = projectTitle.value.trim();
-      const desc = projectDesc.value.trim();
-      const imageFile = projectImage.files[0];
-  
-      if (!title || !desc) {
-        alert("Please enter both title and description.");
-        return;
-      }
-  
-      const post = document.createElement('div');
-      post.className = "card bg-white shadow-md rounded-xl mt-4";
-  
-      const postedTime = formatDate(new Date());
-  
-      let postHTML = `
-        <div class="card-body">
-          <h2 class="card-title text-lg text-gray-800">${title}</h2>
-          <p class="text-gray-600">${desc}</p>
-          <p class="text-sm text-gray-500 mt-2 italic">Posted on ${postedTime}</p>
-      `;
-  
-      if (imageFile) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          postHTML += <img src="${e.target.result}" alt="Project Image" class="mt-4 rounded-lg max-h-60 object-cover w-full"/>;
-          postHTML += '</div>';
-          post.innerHTML = postHTML;
-          projectFeed.appendChild(post);
-        };
-        reader.readAsDataURL(imageFile);
-      } else {
-        postHTML += '</div>';
-        post.innerHTML = postHTML;
-        projectFeed.appendChild(post);
-      }
-  
-      // Reset form and close modal
-      projectTitle.value = '';
-      projectDesc.value = '';
-      projectImage.value = '';
-      projectModal.classList.add('hidden');
-    });
   </script>
-  
 
 </body>
 </html>
