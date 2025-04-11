@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-primary flex items-center justify-center min-h-screen text-gray-900 px-4">
+    <div class="card w-full max-w-lg shadow-2xl bg-white p-10">
+      <form action="login-data" method="POST" class="card-body text-xl space-y-5">
+        <h2 class="text-center text-4xl font-bold mb-6">Sign In</h2>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text text-xl text-gray-800">Email</span>
+          </label>
+          <input
+            type="email"
+            placeholder="email@example.com"
+            class="input input-bordered text-lg"
+            name="email"
+            required
+          />
+        </div>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text text-xl text-gray-800">Password</span>
+          </label>
+          <input
+            type="password"
+            placeholder=""
+            class="input input-bordered text-lg"
+            name="password"
+            required
+          />
+          <label class="label">
+            <a href="#" class="label-text-alt link link-hover text-base text-gray-600">Forgot password?</a>
+          </label>
+        </div>
+
+        <div class="form-control mt-6">
+          <button class="btn btn-primary text-xl py-3">Sign In</button>
+        </div>
+
+        <p class="text-lg text-center mt-6 text-gray-700">
+          Don't have an account?
+          <a href="signup" class="text-primary link link-hover font-medium">Sign up</a>
+        </p>
+      </form>
+    </div>
+  </body>
+</html>

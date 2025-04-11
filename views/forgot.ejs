@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forgot Password</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-primary flex items-center justify-center min-h-screen text-gray-900 px-4">
+    <div class="card w-full max-w-lg shadow-2xl bg-white p-10">
+      <form class="card-body text-xl space-y-5">
+        <h2 class="text-center text-4xl font-bold mb-4">Forgot Password</h2>
+
+        <p class="text-center text-gray-700 text-lg">
+          Enter your email and we’ll send you a reset link.
+        </p>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text text-xl text-gray-800">Email</span>
+          </label>
+          <input
+            type="email"
+            placeholder="email@example.com"
+            class="input input-bordered text-lg"
+            required
+          />
+        </div>
+
+        <div class="form-control mt-6">
+          <button class="btn btn-primary text-xl py-3">Send OTP</button>
+        </div>
+
+        <p class="text-lg text-center mt-6 text-gray-700">
+          Remember your password?
+          <a href="login" class="text-primary link link-hover font-medium">Back to Sign In</a>
+        </p>
+      </form>
+    </div>
+  </body>
+</html>

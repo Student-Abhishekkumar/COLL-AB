@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registration Form with DaisyUI</title>
+  <!-- Load Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Load DaisyUI -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.js"></script>
+</head>
+<body class="bg-base-200 min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-3xl bg-white p-8 rounded-lg shadow-md">
+    <h2 class="text-3xl font-bold mb-6 text-center">Registration</h2>
+    
+    <!-- Registration Form -->
+    <form action="/signup-data" method="post">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <!-- Name -->
+        <div>
+          <label class="label"><span class="label-text">Full Name</span></label>
+          <input type="text" placeholder="Enter your name" class="input input-bordered w-full" name="name" required>
+        </div>
+        <!-- Username -->
+        <div>
+          <label class="label"><span class="label-text">Username</span></label>
+          <input type="text" placeholder="Enter your username" class="input input-bordered w-full" name="username" required>
+        </div>
+        <!-- Email -->
+        <div>
+          <label class="label"><span class="label-text">Email</span></label>
+          <input type="email" placeholder="Enter your email" class="input input-bordered w-full" name="email" required>
+        </div>
+        <!-- Phone Number -->
+        <div>
+          <label class="label"><span class="label-text">Phone Number</span></label>
+          <input type="text" placeholder="Enter your number" class="input input-bordered w-full" name="number" required>
+        </div>
+        <!-- Password -->
+        <div>
+          <label class="label"><span class="label-text">Password</span></label>
+          <input type="password" placeholder="Enter your password" class="input input-bordered w-full" name="password" required>
+        </div>
+        <!-- Confirm Password -->
+        <div>
+          <label class="label"><span class="label-text">Confirm Password</span></label>
+          <input type="password" placeholder="Confirm your password" class="input input-bordered w-full" required>
+        </div>
+      </div>
+
+      <!-- Domain Interests -->
+      <div class="mb-6">
+        <label class="label"><span class="label-text text-lg font-medium">Domain Interests <small>(select any)</small></span></label>
+        <div class="flex flex-wrap gap-3 mt-2">
+          <input type="checkbox" id="domain1" class="btn btn-outline btn-sm" value="Interested Subjects" name="interests[]">
+          <label for="domain1" class="btn btn-outline btn-sm">Interested Subjects</label>
+
+          <input type="checkbox" id="domain2" class="btn btn-outline btn-sm" value="Extracurricular Activities" name="interests[]">
+          <label for="domain2" class="btn btn-outline btn-sm">Extracurricular Activities</label>
+
+          <input type="checkbox" id="domain3" class="btn btn-outline btn-sm" value="Sports" name="interests[]">
+          <label for="domain3" class="btn btn-outline btn-sm">Sports</label>
+
+          <input type="checkbox" id="domain4" class="btn btn-outline btn-sm" value="Coding & Tech" name="interests[]">
+          <label for="domain4" class="btn btn-outline btn-sm">Coding & Tech</label>
+
+          <input type="checkbox" id="domain5" class="btn btn-outline btn-sm" value="Music & Arts" name="interests[]">
+          <label for="domain5" class="btn btn-outline btn-sm">Music & Arts</label>
+        </div>
+      </div>
+      
+      <!-- Register Button -->
+      <div class="text-center mb-4">
+        <button type="submit" class="btn btn-success w-full md:w-1/2">Register</button>
+      </div>
+    </form>
+
+    <!-- Login redirect -->
+    <div class="text-center mt-4">
+      <p class="mb-2">Already have an account?</p>
+      <form action="/login">
+        <button class="btn btn-outline btn-primary w-full md:w-1/2">Login</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
