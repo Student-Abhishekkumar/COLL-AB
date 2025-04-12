@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Information</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+    input:focus, textarea:focus {
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.5);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+    <!-- Profile Picture Section -->
+    <div class="flex flex-col items-center py-6 animate-fadeIn">
+      <div class="relative group">
+        <img id="profileImage" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Picture" 
+             class="w-24 h-24 rounded-full border-4 border-white shadow-md transition-all group-hover:opacity-90">
+        <label for="imageUpload" class="absolute bottom-0 right-0 bg-indigo-600 text-white rounded-full p-2 hover:bg-indigo-700 cursor-pointer transition-all transform group-hover:scale-110">
+          <i class="fas fa-camera text-xs"></i>
+          <input id="imageUpload" type="file" accept="image/*" class="hidden">
+        </label>
+      </div>
+      <h2 id="profileName" class="mt-3 text-xl font-semibold text-gray-800"><%= user.name %></h2>
+      <!-- <p id="firstNameDisplay" class="mt-1 text-gray-900"><%= user.name.split(' ')[0] %></p> -->
+    </div>
+
+    <!-- Main Content -->
+    <div class="p-6">
+      <!-- User Information Section -->
+      <div class="mb-8">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-semibold text-gray-700">Edit User Information</h2>
+          <button id="editToggleBtn" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium transition-all">
+            <i class="fas fa-edit mr-1"></i> Edit
+          </button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Left Column -->
+          <div class="space-y-4">
+            <div>
+              <h3 class="text-sm font-medium text-gray-500">First name</h3>
+              <p id="firstNameDisplay" class="mt-1 text-gray-900"><%= user.name %></p>
+              <input id="firstNameInput" type="text" value="John" class="hidden mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+              <h3 class="text-sm font-medium text-gray-500">Street address</h3>
+              <div class="mt-1 flex items-center">
+                <input id="addressCheckbox" type="checkbox" class="rounded border-gray-300 text-indigo-600 mr-2">
+                <p id="addressDisplay" class="text-gray-900">1234 Unknown Street</p>
+                <input id="addressInput" type="text" value="1234 Unknown Street" class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              </div>
+            </div>
+            <div>
+              <h3 class="text-sm font-medium text-gray-500">City/Town</h3>
+              <p id="cityDisplay" class="mt-1 text-gray-900">Seattle</p>
+              <input id="cityInput" type="text" value="Seattle" class="hidden mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+              <h3 class="text-sm font-medium text-gray-500">Country</h3>
+              <p id="countryDisplay" class="mt-1 text-gray-900">United States of America</p>
+              <input id="countryInput" type="text" value="United States of America" class="hidden mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="space-y-4">
+            <div>
+              <h3 class="text-sm font-medium text-gray-500">Last name</h3>
+              <p id="lastNameDisplay" class="mt-1 text-gray-900">Dee</p>
+              <input id="lastNameInput" type="text" value="Dee" class="hidden mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+              <h3 class="text-sm font-medium text-gray-500">State</h3>
+              <p id="stateDisplay" class="mt-1 text-gray-900">Washington</p>
+              <input id="stateInput" type="text" value="Washington" class="hidden mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+              <h3 class="text-sm font-medium text-gray-500">Email address</h3>
+              <p id="emailDisplay" class="mt-1 text-gray-900"><%= user.email %></p>
+              <input id="emailInput" type="email" value="john.doe@gmail.com" class="hidden mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="border-t border-gray-200 my-6"></div>
+
+      <!-- Contact Information Section -->
+      <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Contact Information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="text-sm font-medium text-gray-500">Phone number</h3>
+            <p id="phoneDisplay" class="mt-1 text-gray-900"><%= user.number %></p>
+            <input id="phoneInput" type="tel" value="(122) 456-7890" class="hidden mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <h3 class="text-sm font-medium text-gray-500">Email address</h3>
+            <p id="contactEmailDisplay" class="mt-1 text-gray-900"><%= user.email %></p>
+            <input id="contactEmailInput" type="email" value="john.doe@gmail.com" class="hidden mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="border-t border-gray-200 my-6"></div>
+
+      <!-- Profile Description Section -->
+      <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Profile Description</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-sm font-medium text-gray-500">Languages I speak</h3>
+            <p id="languagesDisplay" class="mt-1 text-gray-900">English, Spanish</p>
+            <input id="languagesInput" type="text" value="English, Spanish" class="hidden mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <h3 class="text-sm font-medium text-gray-500">Volunteer program I'm interested in helping with</h3>
+            <p id="volunteerDisplay" class="mt-1 text-gray-900">Teaching English, Citizenship</p>
+            <input id="volunteerInput" type="text" value="Teaching English, Citizenship" class="hidden mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <h3 class="text-sm font-medium text-gray-500">Bio</h3>
+            <p id="bioDisplay" class="mt-1 text-gray-900">
+              My mother immigrated to this country before I was born. I always remember her talking about how hard it was so I wanted to do something to help others who were going through the same thing.
+            </p>
+            <textarea id="bioInput" class="hidden mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="4">My mother immigrated to this country before I was born. I always remember her talking about how hard it was so I wanted to do something to help others who were going through the same thing.</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save/Cancel Buttons (Hidden by default) -->
+      <div id="actionButtons" class="hidden flex justify-end space-x-4 mt-6 animate-fadeIn">
+        <button id="cancelBtn" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-all">
+          Cancel
+        </button>
+        <button id="saveBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all">
+          Save Changes
+        </button>
+      </div>
+
+      <!-- Divider -->
+      <div class="border-t border-gray-200 my-6"></div>
+
+      <!-- Skills Section -->
+      <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Skills</h2>
+        <div id="skillsDisplay" class="flex flex-wrap gap-2">
+          <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Teaching</span>
+          <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Communication</span>
+          <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Leadership</span>
+          <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Bilingual (English/Spanish)</span>
+          <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Cultural Awareness</span>
+        </div>
+        <div id="skillsInput" class="hidden mt-2">
+          <input type="text" value="Teaching, Communication, Leadership, Bilingual (English/Spanish), Cultural Awareness" 
+                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <p class="text-xs text-gray-500 mt-1">Separate skills with commas</p>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="border-t border-gray-200 my-6"></div>
+
+      <!-- Projects Section -->
+      <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Projects</h2>
+        <div class="space-y-4">
+          <div class="border-l-4 border-indigo-500 pl-4">
+            <h3 class="font-medium text-gray-900">ESL Tutoring Program</h3>
+            <p class="text-sm text-gray-600">2022 - Present</p>
+            <p class="text-sm text-gray-700 mt-1">Volunteered as an English tutor for immigrant adults, helping them improve their language skills for daily life and citizenship tests.</p>
+          </div>
+          <div class="border-l-4 border-indigo-500 pl-4">
+            <h3 class="font-medium text-gray-900">Community Citizenship Workshop</h3>
+            <p class="text-sm text-gray-600">Summer 2023</p>
+            <p class="text-sm text-gray-700 mt-1">Organized and led workshops to help immigrants prepare for the U.S. citizenship interview process.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="border-t border-gray-200 my-6"></div>
+
+      <!-- Certificates Section -->
+      <div>
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Certificates</h2>
+        <div class="space-y-4">
+          <div class="flex items-start">
+            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
+              <svg class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div class="ml-4">
+              <h3 class="font-medium text-gray-900">TESOL Certification</h3>
+              <p class="text-sm text-gray-600">International TEFL Academy, 2021</p>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
+              <svg class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div class="ml-4">
+              <h3 class="font-medium text-gray-900">Community Interpreter Certificate</h3>
+              <p class="text-sm text-gray-600">Cross Cultural Communications, 2020</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const editToggleBtn = document.getElementById('editToggleBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const actionButtons = document.getElementById('actionButtons');
+    const imageUpload = document.getElementById('imageUpload');
+    const profileImage = document.getElementById('profileImage');
+
+    const displayFields = document.querySelectorAll('[id$="Display"]');
+    const inputFields = document.querySelectorAll('[id$="Input"]');
+    const skillsDisplay = document.getElementById('skillsDisplay');
+    const skillsInputWrapper = document.getElementById('skillsInput');
+    const skillsInput = skillsInputWrapper.querySelector('input');
+
+    let isEditMode = false;
+
+    function toggleEditMode() {
+      isEditMode = !isEditMode;
+
+      if (isEditMode) {
+        editToggleBtn.innerHTML = '<i class="fas fa-times mr-1"></i> Cancel';
+        editToggleBtn.classList.remove('text-indigo-600');
+        editToggleBtn.classList.add('text-red-600');
+        actionButtons.classList.remove('hidden');
+
+        displayFields.forEach(field => field.classList.add('hidden'));
+        inputFields.forEach((field, index) => {
+          field.classList.remove('hidden');
+          field.classList.add('animate-fadeIn');
+          field.style.animationDelay = `${index * 0.05}s`;
+        });
+        skillsDisplay.classList.add('hidden');
+        skillsInputWrapper.classList.remove('hidden');
+      } else {
+        editToggleBtn.innerHTML = '<i class="fas fa-edit mr-1"></i> Edit';
+        editToggleBtn.classList.add('text-indigo-600');
+        editToggleBtn.classList.remove('text-red-600');
+        actionButtons.classList.add('hidden');
+
+        displayFields.forEach(field => field.classList.remove('hidden'));
+        inputFields.forEach(field => field.classList.add('hidden'));
+        skillsDisplay.classList.remove('hidden');
+        skillsInputWrapper.classList.add('hidden');
+      }
+    }
+
+    function saveChanges() {
+      document.getElementById('firstNameDisplay').textContent = document.getElementById('firstNameInput').value;
+      document.getElementById('lastNameDisplay').textContent = document.getElementById('lastNameInput').value;
+      document.getElementById('profileName').textContent = `${document.getElementById('firstNameInput').value} ${document.getElementById('lastNameInput').value}`;
+      document.getElementById('addressDisplay').textContent = document.getElementById('addressInput').value;
+      document.getElementById('cityDisplay').textContent = document.getElementById('cityInput').value;
+      document.getElementById('countryDisplay').textContent = document.getElementById('countryInput').value;
+      document.getElementById('stateDisplay').textContent = document.getElementById('stateInput').value;
+      document.getElementById('emailDisplay').textContent = document.getElementById('emailInput').value;
+      document.getElementById('phoneDisplay').textContent = document.getElementById('phoneInput').value;
+      document.getElementById('contactEmailDisplay').textContent = document.getElementById('contactEmailInput').value;
+      document.getElementById('languagesDisplay').textContent = document.getElementById('languagesInput').value;
+      document.getElementById('volunteerDisplay').textContent = document.getElementById('volunteerInput').value;
+      document.getElementById('bioDisplay').textContent = document.getElementById('bioInput').value;
+
+      // Update skills display
+      const skills = skillsInput.value.split(',').map(skill => skill.trim()).filter(skill => skill !== '');
+      skillsDisplay.innerHTML = '';
+      skills.forEach(skill => {
+        const span = document.createElement('span');
+        span.className = 'bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm';
+        span.textContent = skill;
+        skillsDisplay.appendChild(span);
+      });
+
+      toggleEditMode();
+    }
+
+    // Cancel changes
+    function cancelChanges() {
+      toggleEditMode(); // Just revert to display mode
+    }
+
+    // Handle image change
+    imageUpload.addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          profileImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    editToggleBtn.addEventListener('click', toggleEditMode);
+    cancelBtn.addEventListener('click', cancelChanges);
+    saveBtn.addEventListener('click', saveChanges);
+  </script>
+</body>
+</html>
