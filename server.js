@@ -11,6 +11,8 @@ const connectDB = require('./config/db');
 const userModel = require('./models/user.model');
 const projectModel = require('./models/project.model');
 const verifyToken = require('./middleware/TokenVerify');
+const user_profile = require('./routes/User-profile.js');
+const { name } = require('ejs');
 
 dotenv.config();
 connectDB();
@@ -37,13 +39,39 @@ function setJwtCookie(res, payload) {
   });
 }
 
+
+
 // Routes
 app.get('/', (req, res) => res.render('landing'));
 
 app.get('/dashboard', verifyToken, async (req, res) => {
-  const projects = await projectModel.find().sort({ createdAt: -1 });
-  res.render('dashboard', { projects });
-});
+    const projects = await projectModel.find().populate('user').sort({ createdAt: -1 });
+    res.render('dashboard', { projects });
+  });
+
+//  mentor routes
+app.get('/mentor', (req,res)=>{
+    res.render('mentor')
+})  
+
+// collaboration routes
+app.get('/collaborations', (req, res) => {
+    res.render('collaboration')
+    })
+
+
+// user-profile routes
+
+
+// app.get("/user-profile", async (req, res) => {
+//     const user = await User.findOne(email, {
+//         name: name,
+//         interests: interests
+//     }); // ya jo bhi logic hai
+//     res.render("user-profile", { user });
+//   });
+
+  app.use('/', user_profile);  
 
 app.get('/signup', (req, res) => res.render('signup'));
 app.post('/signup-data', [
@@ -97,44 +125,48 @@ app.post('/dashboard', [
   }
 });
 
-// Upload project with Supabase
 app.post('/upload-project', upload.single('image'), verifyToken, async (req, res) => {
-  try {
-    const { title, description } = req.body;
-    const file = req.file;
-
-    if (!file) return res.status(400).json({ message: 'Image is required' });
-
-    const fileName = `project-${Date.now()}-${file.originalname}`;
-    const { data, error } = await supabase.storage
-      .from('coll-ab')
-      .upload(fileName, file.buffer, {
-        contentType: file.mimetype,
-        upsert: true
+    try {
+      const { title, description } = req.body;
+      const file = req.file;
+  
+      if (!file) return res.status(400).json({ message: 'Image is required' });
+  
+      const fileName = `project-${Date.now()}-${file.originalname}`;
+      const { data, error } = await supabase.storage
+        .from('coll-ab')
+        .upload(fileName, file.buffer, {
+          contentType: file.mimetype,
+          upsert: true
+        });
+  
+      if (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Image upload failed' });
+      }
+  
+      const { data: publicUrlData } = supabase
+        .storage
+        .from('coll-ab')
+        .getPublicUrl(fileName);
+  
+      const newProject = await projectModel.create({
+        title,
+        description,
+        imageUrl: publicUrlData.publicUrl
       });
-
-    if (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Image upload failed' });
+  
+      res.redirect('/dashboard');
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Something went wrong' });
     }
-
-    const { data: publicUrlData } = supabase
-      .storage
-      .from('coll-ab')
-      .getPublicUrl(fileName);
-
-    const newProject = await projectModel.create({
-      title,
-      description,
-      imageUrl: publicUrlData.publicUrl
-    });
-
-    res.redirect('/dashboard');
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Something went wrong' });
-  }
-});
+  });
+  
+  app.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/');
+  });
 
 app.get('/logout', (req, res) => {
   res.clearCookie('token');
