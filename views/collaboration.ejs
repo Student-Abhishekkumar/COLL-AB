@@ -81,31 +81,10 @@
     </div>
   </div>
 
-  <!-- Main Content Layout -->
-  <div class="flex items-start gap-6 p-6">
+  <!-- Main Layout (Updated with flex-row-reverse) -->
+  <div class="flex flex-col md:flex-row-reverse items-start gap-6 p-6">
 
-    <!-- Sidebar + Recent Enquiry -->
-    <div class="flex flex-col gap-6 w-80 hidden md:flex">
-
-      <!-- Sidebar -->
-      <div class="bg-white p-4 rounded-xl shadow flex flex-col gap-4 h-[400px]">
-        <div class="bg-black text-white text-center font-semibold py-6 rounded-xl relative">
-          BANNER
-          <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-20 h-20 bg-blue-200 rounded-full border-4 border-white flex items-center justify-center">Photo</div>
-        </div>
-        <div class="h-10"></div>
-        <div class="bg-blue-100 rounded-xl p-4 text-center h-40 flex items-center justify-center text-gray-700 shadow">Description</div>
-        <button class="btn w-full bg-white text-gray-800 border border-gray-300 hover:bg-gray-100 shadow h-20 rounded-xl">COLLABORATED PROJECTS</button>
-      </div>
-
-      <!-- Recent Enquiry -->
-      <div class="bg-gray-200 w-full h-40 rounded-xl p-4 shadow">
-        <h3 class="font-medium text-gray-800 mb-2">Recent Enquiry</h3>
-        <p class="text-sm text-gray-600">You have 2 new collaboration requests.</p>
-      </div>
-    </div>
-
-    <!-- Projects Section -->
+    <!-- Collaborations Section (Right on desktop) -->
     <div class="flex-1">
       <h1 class="text-3xl font-bold mb-6">Collaborations</h1>
 
@@ -150,6 +129,58 @@
         <div id="openmarket" class="collapsible-content mt-3">
           <a href="#" class="text-xs text-blue-600 hover:underline">github/janureg375/OpenMarket-1</a>
           <p class="text-gray-600 text-sm mt-2">A user-driven marketplace platform for listing, browsing, and purchasing products...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Section (Left on desktop) -->
+    <div class="flex flex-col gap-6 w-full md:w-80">
+
+      <!-- Sidebar Profile -->
+      <div class="bg-white p-4 rounded-xl shadow flex flex-col gap-4 h-[400px]">
+        <div class="bg-black text-white text-center font-semibold py-6 rounded-xl relative">
+          BANNER
+          <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-20 h-20 bg-blue-200 rounded-full border-4 border-white flex items-center justify-center">Photo</div>
+        </div>
+        <div class="h-10"></div>
+        <div class="bg-blue-100 rounded-xl p-4 text-center h-40 flex items-center justify-center text-gray-700 shadow">Description</div>
+        <button class="btn w-full bg-white text-gray-800 border border-gray-300 hover:bg-gray-100 shadow h-20 rounded-xl">COLLABORATED PROJECTS</button>
+      </div>
+
+      <!-- Sort & Filter Card -->
+      <div class="bg-white w-full rounded-xl p-4 shadow space-y-4">
+        <h3 class="font-medium text-gray-800">Sort & Filter</h3>
+
+        <!-- Sort Dropdown -->
+        <div>
+          <label class="block text-sm text-gray-600 mb-1">Sort By:</label>
+          <select class="w-full p-2 border border-gray-300 rounded-lg text-sm">
+            <option>Newest</option>
+            <option>Oldest</option>
+            <option>Most Popular</option>
+            <option>Alphabetical</option>
+          </select>
+        </div>
+
+        <!-- Filter by Category -->
+        <div>
+          <label class="block text-sm text-gray-600 mb-1">Category:</label>
+          <div class="space-y-1 text-sm text-gray-700">
+            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox"> <span>Web</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox"> <span>Mobile</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox"> <span>AI/ML</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox"> <span>Backend</span></label>
+          </div>
+        </div>
+
+        <!-- Filter by Status -->
+        <div>
+          <label class="block text-sm text-gray-600 mb-1">Status:</label>
+          <div class="space-y-1 text-sm text-gray-700">
+            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox"> <span>Ongoing</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox"> <span>Completed</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox"> <span>Planned</span></label>
+          </div>
         </div>
       </div>
     </div>
