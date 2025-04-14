@@ -13,6 +13,7 @@ const projectModel = require('./models/project.model');
 const verifyToken = require('./middleware/TokenVerify');
 const user_profile = require('./routes/User-profile.js');
 const { name } = require('ejs');
+const dashboard = require('./routes/user-dashboard.js');
 
 dotenv.config();
 connectDB();
@@ -52,7 +53,14 @@ app.get('/dashboard', verifyToken, async (req, res) => {
 //  mentor routes
 app.get('/mentor', (req,res)=>{
     res.render('mentor')
-})  
+}) 
+
+
+app.get('/project-board', (req, res)=>{
+    res.json({
+        message: 'Page is under maintenance',
+    })
+})
 
 // collaboration routes
 app.get('/collaborations', (req, res) => {
@@ -62,16 +70,8 @@ app.get('/collaborations', (req, res) => {
 
 // user-profile routes
 
-
-// app.get("/user-profile", async (req, res) => {
-//     const user = await User.findOne(email, {
-//         name: name,
-//         interests: interests
-//     }); // ya jo bhi logic hai
-//     res.render("user-profile", { user });
-//   });
-
   app.use('/', user_profile);  
+  app.use('/dashboard', dashboard);
 
 app.get('/signup', (req, res) => res.render('signup'));
 app.post('/signup-data', [
